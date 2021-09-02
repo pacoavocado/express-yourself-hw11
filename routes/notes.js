@@ -1,13 +1,12 @@
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
 const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
+const path = require('path');
 
-const app = express();
+// const app = express();
 
 
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/notes.html'))
-);
+
 
 notes.get('/:db_id', (req, res) => {
     const noteId = req.params.note_id;
