@@ -1,5 +1,8 @@
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
+const { readAndAppend, readFromFile } = require('../helpers/fsUtils');
+
+const app = express();
 
 
 app.get('/', (req, res) =>
@@ -32,7 +35,7 @@ notes.delete('/:note_id', (req, res) => {
       writeToFile('./db/db.json', result);
 
       // Respond to the DELETE request
-      res.json(`Item ${noteId} has been deleted 🗑️`);
+      res.json(`Item ${noteId} has been deleted`);
     });
 });
 
@@ -48,6 +51,12 @@ notes.post('/', (req, res) => {
       };
   
       readAndAppend(newNote, './db/db.json');
+
+      const response = {
+        status: 'success',
+        body: newNote,
+      };
+
       res.json(`note added successfully`);
     } else {
       res.error('Error in adding tip');
